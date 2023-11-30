@@ -1,3 +1,8 @@
+<?php
+include __DIR__ . "/../functions/functions.php";
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
