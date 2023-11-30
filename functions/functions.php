@@ -2,6 +2,7 @@
 function generatePassword()
 {
     $passwordLength = $_GET["password-length"];
+    $repeat = $_GET["char-repeat"];
     $symbols = '!?&%$<>^+-\*/()[]{}@#\_=';
     $letters = 'abcdefghijklmnopqrstuvwxyz';
     $upLetters = strtoupper($letters);
@@ -10,7 +11,13 @@ function generatePassword()
     while (strlen($newPassword) < $passwordLength) {
         $allCharacters = $symbols . $letters . $upLetters . $numbers;
         $newCharacter = $allCharacters[rand(0, strlen($allCharacters) - 1)];
-        $newPassword .= $newCharacter;
+        if ($repeat === 'no') {
+            if (!str_contains($newPassword, $newCharacter)) {
+                $newPassword .= $newCharacter;
+            }
+        } else {
+            $newPassword .= $newCharacter;
+        }
     }
     return $newPassword;
 }
