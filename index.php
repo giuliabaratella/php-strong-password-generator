@@ -1,7 +1,7 @@
 <?php
 include __DIR__ . "/partials/header.php";
 
-if (isset($_GET["password-length"]) && $_GET["password-length"] !== '') {
+if (isset($_GET["password-length"]) && $_GET["password-length"] !== '' && isset($_GET["allowed"])) {
     $password = generatePassword();
     if ($password !== 'error') {
         $_SESSION["password"] = $password;
@@ -41,7 +41,7 @@ if (isset($_GET["password-length"]) && $_GET["password-length"] !== '') {
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="0" id="letters" name="allowed[]">
+                    <input class="form-check-input" type="checkbox" value="0" id="letters" name="allowed[]" checked>
                     <label class="form-check-label" for="letters">
                         Lettere
                     </label>
@@ -70,6 +70,11 @@ if (isset($_GET["password-length"]) && $_GET["password-length"] !== '') {
     <?php if (isset($password) && $password === 'error') { ?>
         <div class="alert alert-danger">
             Attenzione! Se desideri solo numeri non ripetuti, imposta un numero di caratteri inferiore a 10.
+        </div>
+    <?php } ?>
+    <?php if (isset($_GET["password-length"]) && !isset($_GET["allowed"])) { ?>
+        <div class="alert alert-danger">
+            Attenzione! Specifica almeno un tipo di carattere.
         </div>
     <?php } ?>
 </main>
