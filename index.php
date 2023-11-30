@@ -3,9 +3,11 @@ include __DIR__ . "/partials/header.php";
 
 if (isset($_GET["password-length"]) && $_GET["password-length"] !== '') {
     $password = generatePassword();
-    $_SESSION["password"] = $password;
-    header('Location: password.php');
-    // var_dump($_SESSION["password"]);
+    if ($password !== 'error') {
+        $_SESSION["password"] = $password;
+        header('Location: password.php');
+    }
+
 }
 
 
@@ -13,7 +15,7 @@ if (isset($_GET["password-length"]) && $_GET["password-length"] !== '') {
 
 <main class="container">
 
-    <div id="pw-generator">
+    <div id="pw-generator" class="mb-3">
         <form class="row g-3" method="GET" action="<?php echo $_SERVER['PHP_SELF'] ?>">
             <div class="col-6">
                 <label for="password-length">Lunghezza password:</label>
@@ -32,10 +34,28 @@ if (isset($_GET["password-length"]) && $_GET["password-length"] !== '') {
                         Si
                     </label>
                 </div>
-                <div class="form-check">
+                <div class="form-check mb-3">
                     <input class="form-check-input" type="radio" name="char-repeat" id="char-repeat" value="no">
                     <label class="form-check-label" for="flexRadioDefault2">
                         No
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="0" id="letters" name="allowed[]">
+                    <label class="form-check-label" for="letters">
+                        Lettere
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="1" id="numbers" name="allowed[]">
+                    <label class="form-check-label" for="numbers">
+                        Numeri
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="2" id="symbols" name="allowed[]">
+                    <label class="form-check-label" for="symbols">
+                        Simboli
                     </label>
                 </div>
             </div>
@@ -47,6 +67,11 @@ if (isset($_GET["password-length"]) && $_GET["password-length"] !== '') {
             </div>
         </form>
     </div>
+    <?php if (isset($password) && $password === 'error') { ?>
+        <div class="alert alert-danger">
+            Attenzione! Se desideri solo numeri non ripetuti, imposta un numero di caratteri inferiore a 10.
+        </div>
+    <?php } ?>
 </main>
 
 
