@@ -8,9 +8,15 @@ if (isset($_GET["password-length"]) && $_GET["password-length"] !== '') {
 function generatePassword()
 {
     $passwordLength = $_GET["password-length"];
+    $symbols = '!?&%$<>^+-\*/()[]{}@#\_=';
+    $letters = 'abcdefghijklmnopqrstuvwxyz';
+    $upLetters = strtoupper($letters);
+    $numbers = '0123456789';
     $newPassword = "";
     while (strlen($newPassword) < $passwordLength) {
-        $newPassword .= rand(0, 9);
+        $allCharacters = $symbols . $letters . $upLetters . $numbers;
+        $newCharacter = $allCharacters[rand(0, strlen($allCharacters) - 1)];
+        $newPassword .= $newCharacter;
     }
     return $newPassword;
 }
